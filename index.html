@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>토스 Product Designer 역량 체크리스트</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c26;
+    --border: #2a2a3a;
+    --accent: #4f6ef7;
+    --accent2: #7c5cfc;
+    --green: #34d399;
+    --yellow: #fbbf24;
+    --red: #f87171;
+    --text: #e8e8f0;
+    --text-muted: #7070a0;
+    --text-dim: #4a4a6a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    min-height: 100vh;
+    padding: 48px 24px;
+  }
+
+  .page-wrap {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 56px;
+    position: relative;
+  }
+
+  .header-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    background: rgba(79, 110, 247, 0.1);
+    border: 1px solid rgba(79, 110, 247, 0.25);
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .header h1 {
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #fff 0%, #a0a0c0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header p {
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .header-line {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .progress-info {
+    flex-shrink: 0;
+  }
+
+  .progress-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .progress-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .progress-bar-wrap {
+    flex: 1;
+  }
+
+  .progress-bar-bg {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 3px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .progress-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    text-align: right;
+  }
+
+  /* Category */
+  .category {
+    margin-bottom: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .category:hover {
+    border-color: rgba(79, 110, 247, 0.3);
+  }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .cat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .cat-icon.blue { background: rgba(79, 110, 247, 0.15); }
+  .cat-icon.purple { background: rgba(124, 92, 252, 0.15); }
+  .cat-icon.green { background: rgba(52, 211, 153, 0.15); }
+  .cat-icon.yellow { background: rgba(251, 191, 36, 0.15); }
+
+  .cat-title-wrap { flex: 1; }
+
+  .cat-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 2px;
+  }
+
+  .cat-title {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .cat-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+
+  .badge-blue { background: rgba(79,110,247,0.15); color: #7090ff; }
+  .badge-purple { background: rgba(124,92,252,0.15); color: #a080ff; }
+  .badge-green { background: rgba(52,211,153,0.15); color: #34d399; }
+  .badge-yellow { background: rgba(251,191,36,0.15); color: #fbbf24; }
+
+  /* Items */
+  .items-wrap { padding: 8px 0; }
+
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 24px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border-radius: 0;
+  }
+
+  .item:hover { background: var(--surface2); }
+
+  .item.checked .item-text { color: var(--text-muted); text-decoration: line-through; text-decoration-color: var(--text-dim); }
+  .item.checked .checkbox { background: var(--accent); border-color: var(--accent); }
+  .item.checked .checkbox::after { opacity: 1; }
+
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    position: relative;
+    transition: all 0.15s;
+    background: transparent;
+  }
+
+  .checkbox::after {
+    content: '';
+    position: absolute;
+    top: 3px; left: 6px;
+    width: 5px; height: 9px;
+    border: 2px solid #fff;
+    border-top: none; border-left: none;
+    transform: rotate(45deg);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .item-content { flex: 1; }
+
+  .item-text {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--text);
+    transition: color 0.15s;
+  }
+
+  .item-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 3px;
+    font-weight: 300;
+    line-height: 1.4;
+  }
+
+  .item-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-right: 4px;
+    margin-top: 5px;
+  }
+
+  .tag-tool { background: rgba(79,110,247,0.1); color: #7090ff; border: 1px solid rgba(79,110,247,0.2); }
+  .tag-skill { background: rgba(52,211,153,0.1); color: #34d399; border: 1px solid rgba(52,211,153,0.2); }
+  .tag-exp { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
+  .tag-soft { background: rgba(124,92,252,0.1); color: #a080ff; border: 1px solid rgba(124,92,252,0.2); }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 24px;
+    opacity: 0.4;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 48px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  .reset-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 8px 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .reset-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Add item section */
+  .add-section {
+    margin-bottom: 32px;
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .add-section:focus-within {
+    border-color: rgba(79, 110, 247, 0.5);
+    border-style: solid;
+  }
+
+  .add-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px 24px 16px;
+  }
+
+  .add-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(79, 110, 247, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .add-title {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-muted);
+  }
+
+  .add-body {
+    padding: 0 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .add-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .add-input {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .add-input::placeholder { color: var(--text-dim); }
+  .add-input:focus { border-color: rgba(79,110,247,0.5); }
+
+  .add-sub-input {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 14px;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.15s;
+  }
+  .add-sub-input::placeholder { color: var(--text-dim); }
+  .add-sub-input:focus { border-color: rgba(79,110,247,0.4); }
+
+  .add-bottom-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cat-select {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 9px 14px;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    outline: none;
+    cursor: pointer;
+    flex: 1;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237070a0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+  }
+  .cat-select:focus { border-color: rgba(79,110,247,0.4); }
+  .cat-select option { background: #1c1c26; }
+
+  .add-btn {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none;
+    border-radius: 10px;
+    padding: 9px 20px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.15s, transform 0.1s;
+    flex-shrink: 0;
+  }
+  .add-btn:hover { opacity: 0.85; }
+  .add-btn:active { transform: scale(0.97); }
+
+  /* Delete button on items */
+  .item-delete {
+    opacity: 0;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 16px;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 6px;
+    transition: opacity 0.15s, color 0.15s, background 0.15s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .item:hover .item-delete { opacity: 1; }
+  .item-delete:hover { color: var(--red); background: rgba(248,113,113,0.1); }
+
+  .custom-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: rgba(79,110,247,0.08);
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <header class="header">
+    <div class="header-line"></div>
+    <div class="header-tag">Toss · Product Designer</div>
+    <h1>역량 체크리스트</h1>
+    <p>채용공고 기반으로 준비해야 할 스킬과 경험을 정리했어요.<br>체크하며 나의 현재 수준을 파악해보세요.</p>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <div class="progress-count" id="checked-count">0</div>
+      <div class="progress-label">/ <span id="total-count">0</span> 완료</div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-bar"></div>
+      </div>
+      <div class="progress-pct" id="progress-pct">0%</div>
+    </div>
+  </div>
+
+  <!-- Category 1 -->
+  <div class="category">
+    <div class="category-header">
+      <div class="cat-icon blue">🎨</div>
+      <div class="cat-title-wrap">
+        <div class="cat-num">CATEGORY 01</div>
+        <div class="cat-title">UI / 시각 디자인 역량</div>
+      </div>
+      <div class="cat-badge badge-blue">도구 + 스킬</div>
+    </div>
+    <div class="items-wrap">
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">Figma 핵심 기능 숙련</div>
+          <div class="item-sub">Auto Layout, Component / Variant, Prototype, Dev Mode 능숙하게 사용 가능한지</div>
+          <span class="item-tag tag-tool">Figma</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">디자인 시스템 이해 및 활용</div>
+          <div class="item-sub">토큰(Color, Spacing, Typography) 구조를 이해하고 컴포넌트 기반으로 화면을 구성할 수 있는지</div>
+          <span class="item-tag tag-tool">Figma</span>
+          <span class="item-tag tag-skill">Design System</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">모바일 UI 가이드라인 이해 (iOS / Android)</div>
+          <div class="item-sub">HIG, Material Design 원칙 숙지 및 플랫폼별 패턴 차이를 이해하고 있는지</div>
+          <span class="item-tag tag-skill">iOS HIG</span>
+          <span class="item-tag tag-skill">Material Design</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">타이포그래피 설계 능력</div>
+          <div class="item-sub">위계(Hierarchy), 가독성, 자간·행간 세팅 등 텍스트 조형을 의도적으로 다룰 수 있는지</div>
+          <span class="item-tag tag-skill">Typography</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">색상 & 대비 활용 능력</div>
+          <div class="item-sub">WCAG 접근성 기준(AA/AAA) 이해, 브랜드 팔레트 내에서 의미 있는 색상 사용이 가능한지</div>
+          <span class="item-tag tag-skill">Color Theory</span>
+          <span class="item-tag tag-skill">Accessibility</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">아이콘 / 그래픽 요소 제작 또는 응용</div>
+          <div class="item-sub">Figma Vector 도구, 또는 Illustrator로 아이콘·일러스트를 직접 제작하거나 커스텀할 수 있는지</div>
+          <span class="item-tag tag-tool">Figma</span>
+          <span class="item-tag tag-tool">Illustrator</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">인터랙션 / 마이크로 애니메이션 설계</div>
+          <div class="item-sub">Figma Prototype 또는 Principle, ProtoPie로 전환·피드백 모션을 표현할 수 있는지</div>
+          <span class="item-tag tag-tool">ProtoPie</span>
+          <span class="item-tag tag-skill">Interaction Design</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">개발 핸드오프 경험</div>
+          <div class="item-sub">Figma Dev Mode, Zeplin 등으로 개발자에게 스펙을 전달한 경험이 있는지; CSS / dp 단위 이해</div>
+          <span class="item-tag tag-tool">Figma Dev Mode</span>
+          <span class="item-tag tag-skill">Handoff</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Category 2 -->
+  <div class="category">
+    <div class="category-header">
+      <div class="cat-icon purple">🔍</div>
+      <div class="cat-title-wrap">
+        <div class="cat-num">CATEGORY 02</div>
+        <div class="cat-title">문제 정의 & 사용자 리서치 역량</div>
+      </div>
+      <div class="cat-badge badge-purple">사고 + 방법론</div>
+    </div>
+    <div class="items-wrap">
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">사용자 인터뷰 설계 및 진행</div>
+          <div class="item-sub">인터뷰 가이드 작성, 편향 없는 질문 구성, 인사이트 도출 경험이 있는지</div>
+          <span class="item-tag tag-skill">User Interview</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">사용성 테스트(UT) 수행 경험</div>
+          <div class="item-sub">태스크 기반 테스트를 기획하고 관찰·분석한 경험이 있는지</div>
+          <span class="item-tag tag-skill">Usability Test</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">정량 데이터 분석 능력</div>
+          <div class="item-sub">퍼널 분석, Retention, 클릭률 등 데이터를 해석하고 디자인 가설에 연결할 수 있는지; Amplitude·Mixpanel 등 활용 경험</div>
+          <span class="item-tag tag-tool">Amplitude</span>
+          <span class="item-tag tag-skill">Data Analysis</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">문제 정의 → 가설 수립 → 검증 루프 경험</div>
+          <div class="item-sub">"어떤 사용자가, 어떤 상황에서, 왜 이 문제를 겪는가"를 명확히 정의하고 뾰족한 가설을 만들어본 경험</div>
+          <span class="item-tag tag-skill">Problem Framing</span>
+          <span class="item-tag tag-skill">Hypothesis</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">경쟁사 / 레퍼런스 벤치마킹</div>
+          <div class="item-sub">유사 서비스를 분석해 차별점과 개선 포인트를 도출하는 습관이 있는지</div>
+          <span class="item-tag tag-skill">Benchmarking</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Category 3 -->
+  <div class="category">
+    <div class="category-header">
+      <div class="cat-icon green">🚀</div>
+      <div class="cat-title-wrap">
+        <div class="cat-num">CATEGORY 03</div>
+        <div class="cat-title">제품 설계 & 비즈니스 역량</div>
+      </div>
+      <div class="cat-badge badge-green">경험 + 성과</div>
+    </div>
+    <div class="items-wrap">
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">As-Is → To-Be 개선 프로젝트 경험</div>
+          <div class="item-sub">기존 화면의 문제를 발견하고 개선안을 설계해 실제 출시까지 진행한 경험이 있는지</div>
+          <span class="item-tag tag-exp">출시 경험</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">UX Writing / 마이크로카피 설계</div>
+          <div class="item-sub">버튼 레이블, 에러 메시지, 온보딩 텍스트 등 UI 내 텍스트를 사용자 중심으로 작성할 수 있는지</div>
+          <span class="item-tag tag-skill">UX Writing</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">A/B 테스트 설계 및 결과 해석</div>
+          <div class="item-sub">실험 단위 설정, 통계적 유의미성 이해, 결과를 다음 이터레이션에 연결한 경험이 있는지</div>
+          <span class="item-tag tag-skill">A/B Test</span>
+          <span class="item-tag tag-exp">데이터 검증</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">비즈니스 목표와 UX를 함께 고민한 경험</div>
+          <div class="item-sub">전환율, 재방문율, 수익 지표 등 비즈니스 KPI와 사용자 경험 사이에서 균형 잡힌 의사결정을 해본 경험</div>
+          <span class="item-tag tag-exp">KPI 연결</span>
+          <span class="item-tag tag-skill">Product Thinking</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">정보 구조(IA) 설계 능력</div>
+          <div class="item-sub">네비게이션 구조, 메뉴 depth, 콘텐츠 분류를 논리적으로 설계한 경험이 있는지</div>
+          <span class="item-tag tag-skill">IA</span>
+          <span class="item-tag tag-skill">User Flow</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">포트폴리오에 결과 지표가 포함된 케이스 스터디</div>
+          <div class="item-sub">디자인 변경 후 전환율 X% 상승, DAU Y만 증가 등 결과를 수치로 표현한 프로젝트가 있는지</div>
+          <span class="item-tag tag-exp">성과 측정</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Category 4 -->
+  <div class="category">
+    <div class="category-header">
+      <div class="cat-icon yellow">🤝</div>
+      <div class="cat-title-wrap">
+        <div class="cat-num">CATEGORY 04</div>
+        <div class="cat-title">커뮤니케이션 & 협업 역량</div>
+      </div>
+      <div class="cat-badge badge-yellow">소프트 스킬</div>
+    </div>
+    <div class="items-wrap">
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">디자인 의도를 논리적으로 설명하는 능력</div>
+          <div class="item-sub">왜 이 화면이어야 하는지 근거를 사용자 데이터·원칙·비즈니스 목표와 연결해 설득한 경험이 있는지</div>
+          <span class="item-tag tag-soft">Storytelling</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">개발자와의 원활한 협업 경험</div>
+          <div class="item-sub">기술 제약을 이해하고 스펙 협의, 구현 후 QA까지 함께 진행한 경험이 있는지</div>
+          <span class="item-tag tag-soft">Dev Collaboration</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">PM / 기획자와의 요구사항 정의 경험</div>
+          <div class="item-sub">불명확한 요구사항을 명확한 디자인 문제로 번역하고 범위를 조율한 경험이 있는지</div>
+          <span class="item-tag tag-soft">PM Collaboration</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">주도적 의사결정 경험 (오너십)</div>
+          <div class="item-sub">승인 없이 스스로 결정하고 실행해본 경험, 또는 소규모 팀에서 1인 디자이너로 일한 경험이 있는지</div>
+          <span class="item-tag tag-soft">Ownership</span>
+          <span class="item-tag tag-exp">스타트업 경험</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">피드백을 수용하고 빠르게 이터레이션하는 자세</div>
+          <div class="item-sub">팀 리뷰나 사용자 테스트 피드백을 방어적이지 않게 받아들이고 빠르게 반영한 경험이 있는지</div>
+          <span class="item-tag tag-soft">Growth Mindset</span>
+        </div>
+      </div>
+      <div class="divider"></div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-text">Notion / Confluence 등 문서화 습관</div>
+          <div class="item-sub">디자인 결정 사항, 리서치 인사이트, 컴포넌트 가이드 등을 문서로 남기는 습관이 있는지</div>
+          <span class="item-tag tag-tool">Notion</span>
+          <span class="item-tag tag-soft">Documentation</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Add custom item -->
+  <div class="add-section">
+    <div class="add-header">
+      <div class="add-icon">✏️</div>
+      <div>
+        <div class="add-title">나만의 항목 추가하기</div>
+      </div>
+    </div>
+    <div class="add-body">
+      <div class="add-row">
+        <input class="add-input" id="new-text" type="text" placeholder="추가할 역량이나 준비 항목을 입력하세요" maxlength="60" />
+      </div>
+      <input class="add-sub-input" id="new-sub" type="text" placeholder="부연 설명 (선택)" maxlength="100" />
+      <div class="add-bottom-row">
+        <select class="cat-select" id="new-cat">
+          <option value="cat1">🎨 UI / 시각 디자인</option>
+          <option value="cat2">🔍 문제 정의 & 리서치</option>
+          <option value="cat3">🚀 제품 설계 & 비즈니스</option>
+          <option value="cat4">🤝 커뮤니케이션 & 협업</option>
+        </select>
+        <button class="add-btn" onclick="addItem()">+ 추가</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div>toss.im · Product Designer 채용공고 기반 제작</div>
+    <button class="reset-btn" onclick="resetAll()">체크 초기화</button>
+  </div>
+
+</div>
+
+<script>
+  const catMap = {
+    cat1: 0, cat2: 1, cat3: 2, cat4: 3
+  };
+
+  function toggle(item) {
+    // Don't toggle if clicking delete button
+    item.classList.toggle('checked');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const all = document.querySelectorAll('.item');
+    const checked = document.querySelectorAll('.item.checked');
+    const total = all.length;
+    const done = checked.length;
+    const pct = total ? Math.round((done / total) * 100) : 0;
+
+    document.getElementById('checked-count').textContent = done;
+    document.getElementById('total-count').textContent = total;
+    document.getElementById('progress-bar').style.width = pct + '%';
+    document.getElementById('progress-pct').textContent = pct + '%';
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.item.checked').forEach(el => el.classList.remove('checked'));
+    updateProgress();
+  }
+
+  function deleteItem(btn, e) {
+    e.stopPropagation();
+    const item = btn.closest('.item');
+    const next = item.nextElementSibling;
+    const prev = item.previousElementSibling;
+    // Remove adjacent divider
+    if (next && next.classList.contains('divider')) next.remove();
+    else if (prev && prev.classList.contains('divider')) prev.remove();
+    item.style.transition = 'opacity 0.2s, transform 0.2s';
+    item.style.opacity = '0';
+    item.style.transform = 'translateX(10px)';
+    setTimeout(() => { item.remove(); updateProgress(); }, 200);
+  }
+
+  function addItem() {
+    const text = document.getElementById('new-text').value.trim();
+    const sub = document.getElementById('new-sub').value.trim();
+    const catKey = document.getElementById('new-cat').value;
+
+    if (!text) {
+      document.getElementById('new-text').focus();
+      document.getElementById('new-text').style.borderColor = 'rgba(248,113,113,0.6)';
+      setTimeout(() => document.getElementById('new-text').style.borderColor = '', 1200);
+      return;
+    }
+
+    const categories = document.querySelectorAll('.category');
+    const targetCat = categories[catMap[catKey]];
+    const itemsWrap = targetCat.querySelector('.items-wrap');
+
+    // Add divider if there are existing items
+    if (itemsWrap.children.length > 0) {
+      const div = document.createElement('div');
+      div.className = 'divider';
+      itemsWrap.appendChild(div);
+    }
+
+    const newItem = document.createElement('div');
+    newItem.className = 'item';
+    newItem.style.opacity = '0';
+    newItem.style.transform = 'translateY(-6px)';
+    newItem.onclick = function() { toggle(this); };
+    newItem.innerHTML = `
+      <div class="checkbox"></div>
+      <div class="item-content">
+        <div class="item-text">${escapeHtml(text)} <span class="custom-badge">내 항목</span></div>
+        ${sub ? `<div class="item-sub">${escapeHtml(sub)}</div>` : ''}
+      </div>
+      <button class="item-delete" onclick="deleteItem(this, event)" title="삭제">×</button>
+    `;
+
+    itemsWrap.appendChild(newItem);
+
+    // Animate in
+    requestAnimationFrame(() => {
+      newItem.style.transition = 'opacity 0.25s, transform 0.25s';
+      newItem.style.opacity = '1';
+      newItem.style.transform = 'translateY(0)';
+    });
+
+    // Scroll to new item
+    setTimeout(() => newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+
+    // Clear inputs
+    document.getElementById('new-text').value = '';
+    document.getElementById('new-sub').value = '';
+    document.getElementById('new-text').focus();
+
+    updateProgress();
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Enter key to add
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('new-text').addEventListener('keydown', e => {
+      if (e.key === 'Enter') addItem();
+    });
+    document.getElementById('new-sub').addEventListener('keydown', e => {
+      if (e.key === 'Enter') addItem();
+    });
+    updateProgress();
+  });
+</script>
+</body>
+</html>
